@@ -2,37 +2,83 @@ import React, { Component } from "react";
 
 import firebase from "firebase/app";
 import "firebase/auth";
-import "firebase/firestore"
+import "firebase/database";
 
-var config = {
+const config = {
   apiKey: "AIzaSyARLrRx5a6svIkXpQ-nsYNum5VvXSnBjiM",
   authDomain: "digszamgang.firebaseapp.com",
-  // For databases not in the us-central1 location, databaseURL will be of the
-  // form https://[databaseName].[region].firebasedatabase.app.
-  // For example, https://your-database-123.europe-west1.firebasedatabase.app
-  databaseURL: "https://digszamgang-default-rtdb.europe-west1.firebasedatabase.app/",
-  storageBucket: "gs://digszamgang.appspot.com"
+  databaseURL:
+    "https://digszamgang-default-rtdb.europe-west1.firebasedatabase.app/",
+  storageBucket: "digszamgang.appspot.com",
 };
+
 firebase.initializeApp(config);
 
 // Get a reference to the database service
-var database = firebase.database();
+const database = firebase.database().ref();
 
-database.child("proba_acc").get().then(function(snapshot) {
-  if (snapshot.exists()) {
-    console.log(snapshot.val());
-  }
-  else {
-    console.log("No data available");
-  }
-}).catch(function(error) {
-  console.error(error);
+database.on("value", (snap) => console.log(snap.val()));
+
+/* database.on("value", (snap) => {
+  document.getElementById("temp").innerHTML = JSON.stringify(
+    snap.val(),
+    null,
+    3
+  );
+});
+ */
+
+database.on("value", function (snap) {
+  var table = "<table>";
+  snap.forEach(function (data) {
+    var val = data.val();
+    table +=
+      "<tr><td>" +
+      val.username +
+      "</td><td>" +
+      val.password +
+      "</td><td>" +
+      val.point +
+      "</td></tr>";
+  });
+  document.getElementById("table").innerHTML = table;
 });
 
+//database.on("value", (snap) => (lista = JSON.parse(snap.val())));
+
+/* function novel(id) {
+  var szam;
+  const child = firebase.database().ref().child(id).child("point");
+  child.on("value", function (snap) {
+    szam = snap.val();
+  });
+  console.log(szam);
+  //child.set({ point: (szam + 1) });
+} */
+
 class App extends Component {
-  state = {}; 
+  state = {};
+
+  novel(id) {
+    var szam;
+    const leker = firebase.database().ref().child(id).child("point");
+    leker.on("value", function (snap) {
+      szam = snap.val();
+    });
+    szam++;
+    console.log(szam);
+    const upd = firebase.database().ref().child(id);
+    upd.update({point:(szam)});
+  }
+
   render() {
-    return <h1>v10</h1>;
+    return (
+      <div>
+        <table id="table"></table>
+        <button onClick={() => this.novel("proba")}>elso</button>
+        <button onClick={() => this.novel("proba_acc")}>masik</button>
+      </div>
+    );
   }
 }
 
