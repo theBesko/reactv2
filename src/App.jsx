@@ -5,57 +5,30 @@ import "firebase/database";
 import config from "./cfg";
 
 firebase.initializeApp(config);
-
-//const database = firebase.database().ref();
 const auth = firebase.auth();
-
-//database.on("value", (snap) => console.log(snap.val()));
 
 class App extends Component {
   state = {};
 
-  // novel() {
-  //   auth.onAuthStateChanged((user) => {
-  //     if (user) {
-  //       var szam;
-
-  //       const userdb = firebase
-  //         .database()
-  //         .ref()
-  //         .child(auth.currentUser.displayName);
-  //       userdb.child("score").once("value", (snap) => {
-  //         szam = snap.val();
-  //         szam++;
-  //       });
-
-  //       setTimeout(() => {
-  //         userdb.update({ score: szam });
-  //         kiir();
-  //       }, 100);
-  //     }
-  //   });
-  // }
-
   render() {
     return (
       <div>
-        <p id="kiir"></p>
-        
-        <button id="logout">LOGOUT</button>
-        <div style={{display: "none"}} className="progress">
-          <span id="progress-value">60%</span>
-          <div className="progress-bar" id="pb" style={{width: "60%"}}></div>
+        <div>
+          <button className="bckmm" id="logout">
+            Logout
+          </button>
         </div>
-       
+
+        <h2 id="kiir">.</h2>
         <div id="menuContainer">
           <div id="menu">
-          <h1 id="titleMenu">SzegziGameszko</h1>
+            <h1 className="titleMenu">English-Learninator</h1>
             <button className="btnMenu" id="btnGuess">
-              Guess the Word
+              What's on the picture?
             </button>
             <br />
             <button className="btnMenu" id="btnHangman">
-              Guess the Letters
+              Letter-o-guess
             </button>
             <br />
             <button className="btnMenu" id="btnLadder">
@@ -82,15 +55,12 @@ setTimeout(() => {
   });
 
   const kiirdiv = document.getElementById("kiir");
-  const pbdiv = document.getElementById("pb");
-  const pbval = document.getElementById("progress-value");
 
   function kiir() {
     var score;
     var level = 1;
     var next = 50;
     var limit;
-    var scoreLevel;
 
     firebase
       .database()
@@ -107,24 +77,16 @@ setTimeout(() => {
           level++;
         }
 
-        scoreLevel = limit - (next - score);
         kiirdiv.innerHTML =
-          "currently signed in as: <b>" +
+          "Welcome, " +
           auth.currentUser.displayName +
-          "</b> score: " +
+          " (" +
+          level +
+          ")<br><h3>Your score: " +
           score +
           "/" +
           next +
-          " pts LEVEL: " +
-          level;
-
-        pbdiv.ariaValueMin = limit - (50 + level * 10);
-        pbdiv.ariaValueMax = limit;
-        //  console.log(scoreLevel);
-        pbdiv.ariaValueNow = scoreLevel;
-        // pbdiv.innerHTML = "Level " + level + "(" + score + " / " + next + ")";
-        pbval.innerHTML = "Level " + level + "(" + score + " / " + next + ")";
-        pbdiv.style.width = (scoreLevel / limit) * 100 + "%";
+          "</h3>";
       });
   }
 

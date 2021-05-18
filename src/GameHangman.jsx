@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import shuffle from "./shuffle";
-import optionCollection from "./GameGuessWordArray";
 
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -41,6 +40,7 @@ for (let i = 0; i < phrase.length; i++) {
 function endgame() {
   if (!word.includes("_")) {
     document.getElementById("hangmanscreen").style.display = "none";
+    document.getElementById("ending").style.display = "";
     document.getElementById("ending").innerHTML = "Congrats, you solved it!";
 
     document.getElementById("leavehm").style.display = "";
@@ -49,6 +49,7 @@ function endgame() {
   if (steps === 0) {
     document.getElementById("hangmanscreen").style.display = "none";
     document.getElementById("leavehm").style.display = "";
+    document.getElementById("ending").style.display = "";
     document.getElementById("ending").innerHTML = "Better luck next time!";
   }
 }
@@ -120,7 +121,7 @@ function renderLetters() {
 
 setTimeout(() => {
   renderLetters();
-  document.getElementById("tmp").innerHTML = phrase;
+  //document.getElementById("tmp").innerHTML = phrase;
   const guess = document.getElementById("guessWord");
   guess.innerHTML = word;
   document.getElementById("leavehm").addEventListener("click", () => {
@@ -145,17 +146,29 @@ class GameHangman extends Component {
   render() {
     return (
       <div>
-        <button id="mainmenu4">Back</button>
+        <button className="bckmm" id="mainmenu4">
+          Back
+        </button>
         <p id="tmp"></p>
         <p id="err"></p>
         <div id="hangmanscreen">
           <div id="guessWord"></div>
           <div id="letters"></div>
         </div>
-        <p id="ending"></p>
-        <button style={{ display: "none" }} id="leavehm">
-          Leave
-        </button>
+        <div id="ldbcenter">
+          <div>
+            <h1 className="titleMenu" id="ending" style={{ display: "none" }}>
+              .
+            </h1>
+            <button
+              style={{ display: "none" }}
+              className="btnMenu"
+              id="leavehm"
+            >
+              Leave
+            </button>
+          </div>
+        </div>
       </div>
     );
   }

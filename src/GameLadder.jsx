@@ -76,7 +76,10 @@ setTimeout(() => {
           isCorrect = true;
         } else {
           document.getElementById("isCorrect").innerHTML =
-            "WRONG, the answer is " + goodOption;
+            "WRONG, the answer was " + goodOption + "Better luck next time!";
+          document.getElementById("gamecontent").style.display = "none";
+
+          btLeave.style.display = "";
         }
         btNext.style.display = "";
         bt1.style.display = "none";
@@ -166,19 +169,24 @@ class GameLadder extends Component {
   render() {
     return (
       <div>
-        <button id="mainmenu3">Back</button>
-        <button id="btnHalve">Felezz</button>
-        <button id="btnHelp">Közönség</button>
-        <p id="help"></p>
-        <p id="question">asd</p>
-        <p id="isCorrect"></p>
-        <button id="btn1"></button>
-        <button id="btn2"></button>
-        <button id="btn3"></button>
-        <button id="btn4"></button>
-        <button id="btnNext" style={{ display: "none" }}>
-          Next
+        <button className="bckmm" id="mainmenu3">
+          Back
         </button>
+
+        <p id="isCorrect"></p>
+        <div id="gamecontent">
+          <button id="btnHalve">Felezz</button>
+          <button id="btnHelp">Közönség</button>
+          <p id="help"></p>
+          <p id="question">asd</p>
+          <button id="btn1"></button>
+          <button id="btn2"></button>
+          <button id="btn3"></button>
+          <button id="btn4"></button>
+          <button id="btnNext" style={{ display: "none" }}>
+            Next
+          </button>
+        </div>
         <button id="btnLeave" style={{ display: "none" }}>
           Leave
         </button>

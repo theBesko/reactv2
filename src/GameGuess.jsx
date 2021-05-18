@@ -117,7 +117,7 @@ class GameGuess extends Component {
   render() {
     return (
       <div>
-        <button id="mainmenu">Back</button>
+        <button className="bckmm" id="mainmenu">Back</button>
         <div>
           <img
             height={200}

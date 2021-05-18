@@ -6,6 +6,8 @@ import "firebase/database";
 const orderedDB = firebase.database().ref().orderByChild("score");
 var dbArray = [];
 
+const auth = firebase.auth();
+
 setTimeout(() => {
   function load() {
     var level = 1;
@@ -27,21 +29,82 @@ setTimeout(() => {
         next = 50;
       });
 
-      var table = "<table>";
+      //
+
+      // var arrrrr = [
+      //   "Josh",
+      //   "Alex",
+      //   "András",
+      //   "Tamás",
+      //   "Dr. Digszám",
+      //   "Büntetöző Krisz",
+      //   "Sehonnai bitang ember",
+      //   "Ősi vad kit rettenet űz",
+      //   "John",
+      //   "Steve",
+      //   "Sam",
+      //   "newGuy",
+      //   "Noobmaster69",
+      //   "Ki ez az Nber",
+      //   "New Profile #2223",
+      //   "abc",
+      //   "Digszámvizsga",
+      //   "Centered Div",
+      //   "NincsHosszabító",
+      //   "banTikTok",
+      //   "asda",
+      // ];
+
+      // var szkor = 3420;
+      // var szintecske = 23;
+
+      // dbArray = null;
+      // dbArray = [];
+      // for (let i = 0; i < 21; i++) {
+      //   dbArray.push({ username: arrrrr[i], score: szkor, level: szintecske });
+      //   szkor -= 23;
+      //   if (szkor < 3200) szintecske = 22;
+      // }
+
+      //
+
+      var table =
+        "<table><tr id='firstrow'><td>No.</td><td class='ply'>Player</td><td>Score</td><td class='nopad'>Level</td></tr>";
       let j = 0;
-      for (let i = dbArray.length - 1; i >= 0; i--) {
+      for (
+        let i = dbArray.length - 1;
+        i >= (dbArray.length > 20 ? dbArray.length - 20 : 0);
+        i--
+      ) {
+        // for(let i =0;i<20;i++){
         j++;
         table +=
           "<tr><td>" +
           j +
-          ". " +
+          ". </td><td class='ply'>" +
           dbArray[i]["username"] +
           "</td><td>" +
           dbArray[i]["score"] +
-          "</td><td>" +
+          "</td><td class='nopad'>" +
           dbArray[i]["level"] +
           "</td></tr>";
       }
+      // j = 0;
+      // for (let i = dbArray.length - 1; i >= 0; i--) {
+      //   j++;
+      //   if (dbArray[i]["username"] === auth.currentUser.displayName) {
+      //     table +=
+      //       "<tr><td>" +
+      //       j +
+      //       ". </td><td class='ply'>" +
+      //       dbArray[i]["username"] +
+      //       "</td><td>" +
+      //       dbArray[i]["score"] +
+      //       "</td><td class='nopad'>" +
+      //       dbArray[i]["level"] +
+      //       "</td></tr>";
+      //   }
+      // }
       table += "</table>";
       document.getElementById("leadertable").innerHTML = table;
     });
@@ -58,8 +121,12 @@ class Leaderboard extends Component {
   render() {
     return (
       <div>
-        <div id="leadertable"></div>
-        <button id="mainmenu2">Back</button>
+        <button className="bckmm" id="mainmenu2">
+          Back
+        </button>
+        <div id="lbtable">
+          <div id="leadertable"></div>
+        </div>
       </div>
     );
   }
