@@ -59,7 +59,7 @@ class App extends Component {
 
 setTimeout(() => {
   const logoutBtn = document.getElementById("logout");
-  logoutBtn.addEventListener("click", (event) => {
+  logoutBtn.addEventListener("click", () => {
     firebase.auth().signOut();
 
     document.getElementById("username").value = "";
@@ -73,6 +73,8 @@ setTimeout(() => {
     var score;
     var level = 1;
     var next = 50;
+    var limit;
+    var scoreLevel;
 
     firebase
       .database()
@@ -84,10 +86,12 @@ setTimeout(() => {
         score = snap.val();
 
         while (next < score) {
-          next += 50 + level * 10;
+          limit = 50+(level*10);
+          next += limit;
           level++;
         }
 
+        scoreLevel=limit-(next-score);
         kiirdiv.innerHTML =
           "currently signed in as: <b>" +
           auth.currentUser.displayName +
@@ -98,11 +102,12 @@ setTimeout(() => {
           " pts LEVEL: " +
           level;
 
-        pbdiv.ariaValueMin = next - (50 + level * 10);
-        pbdiv.ariaValueMax = next;
-        pbdiv.ariaValueNow = score;
+        pbdiv.ariaValueMin = limit - (50 + level * 10);
+        pbdiv.ariaValueMax = limit;
+        console.log(scoreLevel)
+        pbdiv.ariaValueNow = scoreLevel;
         pbdiv.innerHTML = "Level " + level + "(" + score + " / " + next + ")";
-        pbdiv.style.width = (score/next)*100+"%";
+        pbdiv.style.width = (scoreLevel/limit)*100+"%";
       });
   }
 
