@@ -14,68 +14,47 @@ const auth = firebase.auth();
 class App extends Component {
   state = {};
 
-  novel() {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        var szam;
+  // novel() {
+  //   auth.onAuthStateChanged((user) => {
+  //     if (user) {
+  //       var szam;
 
-        const userdb = firebase
-          .database()
-          .ref()
-          .child(auth.currentUser.displayName);
-        userdb.child("score").once("value", (snap) => {
-          szam = snap.val();
-          szam++;
-        });
+  //       const userdb = firebase
+  //         .database()
+  //         .ref()
+  //         .child(auth.currentUser.displayName);
+  //       userdb.child("score").once("value", (snap) => {
+  //         szam = snap.val();
+  //         szam++;
+  //       });
 
-        setTimeout(() => {
-          
-          userdb.update({ score: szam });
-          kiir();
-        }, 100);
-      }
-    });
-  }
+  //       setTimeout(() => {
+  //         userdb.update({ score: szam });
+  //         kiir();
+  //       }, 100);
+  //     }
+  //   });
+  // }
 
   render() {
     return (
       <div>
         <p id="kiir"></p>
+        <div className="progress">
+          <div id="pb"  className="progress-bar" role="progressbar"></div>
+        </div>
 
-        <button onClick={this.novel}>+PONT</button>
-        <br></br>
-
-        <p id="hiba"></p>
         <button id="logout">LOGOUT</button>
+
+        <div>
+          <button id="btnGuess">Guess the Word</button>
+          <button id="btnHangman">Guess the Letters</button>
+          <button id="btnLadder">Climb the Ladder</button>
+          <button id="btnLeader">Leaderboard</button>
+        </div>
       </div>
     );
   }
-}
-
-auth.onAuthStateChanged((user) => {
-  if (user) {
-    kiir();
-  }
-});
-
-function kiir() {
-  var score;
-
-  firebase
-    .database()
-    .ref()
-    .child(auth.currentUser.displayName)
-    .child("score")
-    .once("value")
-    .then((snap) => {
-      score = snap.val();
-      document.getElementById("kiir").innerHTML =
-        "currently signed in as: <b>" +
-        auth.currentUser.displayName +
-        "</b>    score: " +
-        score +
-        " pts";
-    });
 }
 
 setTimeout(() => {
@@ -86,6 +65,52 @@ setTimeout(() => {
     document.getElementById("username").value = "";
     document.getElementById("password").value = "";
   });
-}, 1000);
+
+  const kiirdiv = document.getElementById("kiir");
+  const pbdiv = document.getElementById("pb");
+
+  function kiir() {
+    var score;
+    var level = 1;
+    var next = 50;
+
+    firebase
+      .database()
+      .ref()
+      .child(auth.currentUser.displayName)
+      .child("score")
+      .once("value")
+      .then((snap) => {
+        score = snap.val();
+
+        while (next < score) {
+          next += 50 + level * 10;
+          level++;
+        }
+
+        kiirdiv.innerHTML =
+          "currently signed in as: <b>" +
+          auth.currentUser.displayName +
+          "</b> score: " +
+          score +
+          "/" +
+          next +
+          " pts LEVEL: " +
+          level;
+
+        pbdiv.ariaValueMin = next - (50 + level * 10);
+        pbdiv.ariaValueMax = next;
+        pbdiv.ariaValueNow = score;
+        pbdiv.innerHTML = "Level " + level + "(" + score + " / " + next + ")";
+        pbdiv.style.width = (score/next)*100+"%";
+      });
+  }
+
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      kiir();
+    }
+  });
+}, 500);
 
 export default App;
