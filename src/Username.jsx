@@ -27,10 +27,17 @@ class Username extends Component {
   state = {};
   render() {
     return (
-      <div>
-        <label htmlFor="usernameinput">Username</label>
-        <input id="usernameinput"></input>
-        <button id="setusername">My Name!</button>
+      <div id="uNameParent">
+        <div id="uNameChild">
+          <input
+            className="inputfield"
+            id="usernameinput"
+            placeholder="username"
+          ></input>
+          <button className="uNameBtn" id="setusername">
+            My Name!
+          </button>
+        </div>
       </div>
     );
   }

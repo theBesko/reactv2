@@ -8,6 +8,7 @@ import Username from "./Username";
 import GameGuess from "./GameGuess";
 import Leaderboard from "./Leaderboard";
 import GameLadder from "./GameLadder";
+import GameHangman from "./GameHangman";
 
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -31,10 +32,6 @@ const leaderboard = document.getElementById("leaderboard");
 
 auth.onAuthStateChanged((user) => {
   if (user) {
-    game1Div.style.display = "none";
-    game2Div.style.display = "none";
-    game3Div.style.display = "none";
-    leaderboard.style.display = "none";
     if (auth.currentUser.displayName !== null) {
       appDiv.style.display = "block";
       loginDiv.style.display = "none";
@@ -52,6 +49,11 @@ auth.onAuthStateChanged((user) => {
 });
 
 setTimeout(() => {
+  game1Div.style.display = "none";
+  game2Div.style.display = "none";
+  game3Div.style.display = "none";
+  leaderboard.style.display = "none";
+
   const btnGame1 = document.getElementById("btnGuess");
   const btnGame2 = document.getElementById("btnHangman");
   const btnGame3 = document.getElementById("btnLadder");
@@ -76,8 +78,7 @@ setTimeout(() => {
     for (let e in x) {
       x[e].style.display = "none";
     }
-      parDiv.style.display = "block";
-    
+    parDiv.style.display = "block";
   }
 }, 100);
 
@@ -85,7 +86,6 @@ ReactDom.render(<App />, appDiv);
 ReactDom.render(<Login />, loginDiv);
 ReactDom.render(<Username />, unDiv);
 ReactDom.render(<GameGuess />, game1Div);
-// ReactDom.render(<GameHangman />, game2Div);
+ReactDom.render(<GameHangman />, game2Div);
 ReactDom.render(<GameLadder />, game3Div);
-
 ReactDom.render(<Leaderboard />, leaderboard);

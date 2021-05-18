@@ -40,17 +40,32 @@ class App extends Component {
     return (
       <div>
         <p id="kiir"></p>
-        <div className="progress">
-          <div id="pb"  className="progress-bar" role="progressbar"></div>
-        </div>
-
+        
         <button id="logout">LOGOUT</button>
-
-        <div>
-          <button id="btnGuess">Guess the Word</button>
-          <button id="btnHangman">Guess the Letters</button>
-          <button id="btnLadder">Climb the Ladder</button>
-          <button id="btnLeader">Leaderboard</button>
+        <div style={{display: "none"}} className="progress">
+          <span id="progress-value">60%</span>
+          <div class="progress-bar" id="pb" style={{width: "60%"}}></div>
+        </div>
+       
+        <div id="menuContainer">
+          <div id="menu">
+          <h1 id="titleMenu">SzegziGameszko</h1>
+            <button className="btnMenu" id="btnGuess">
+              Guess the Word
+            </button>
+            <br />
+            <button className="btnMenu" id="btnHangman">
+              Guess the Letters
+            </button>
+            <br />
+            <button className="btnMenu" id="btnLadder">
+              Climb the Ladder
+            </button>
+            <br />
+            <button className="btnMenu" id="btnLeader">
+              Leaderboard
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -68,6 +83,7 @@ setTimeout(() => {
 
   const kiirdiv = document.getElementById("kiir");
   const pbdiv = document.getElementById("pb");
+  const pbval = document.getElementById("progress-value");
 
   function kiir() {
     var score;
@@ -86,12 +102,12 @@ setTimeout(() => {
         score = snap.val();
 
         while (next < score) {
-          limit = 50+(level*10);
+          limit = 50 + level * 10;
           next += limit;
           level++;
         }
 
-        scoreLevel=limit-(next-score);
+        scoreLevel = limit - (next - score);
         kiirdiv.innerHTML =
           "currently signed in as: <b>" +
           auth.currentUser.displayName +
@@ -104,10 +120,11 @@ setTimeout(() => {
 
         pbdiv.ariaValueMin = limit - (50 + level * 10);
         pbdiv.ariaValueMax = limit;
-        console.log(scoreLevel)
+        //  console.log(scoreLevel);
         pbdiv.ariaValueNow = scoreLevel;
-        pbdiv.innerHTML = "Level " + level + "(" + score + " / " + next + ")";
-        pbdiv.style.width = (scoreLevel/limit)*100+"%";
+        // pbdiv.innerHTML = "Level " + level + "(" + score + " / " + next + ")";
+        pbval.innerHTML = "Level " + level + "(" + score + " / " + next + ")";
+        pbdiv.style.width = (scoreLevel / limit) * 100 + "%";
       });
   }
 

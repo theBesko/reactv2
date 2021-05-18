@@ -13,7 +13,7 @@ setTimeout(() => {
     const promise = auth.signInWithEmailAndPassword(email, password);
     promise
       .then(() => {
-       // document.location.reload();
+        // document.location.reload();
       })
       .catch((event) => {
         console.log(event.message);
@@ -39,16 +39,29 @@ class Login extends Component {
 
   render() {
     return (
-      <div>
-        <label htmlFor="email">E-mail</label>
-        <input type="text" id="email"></input>
-        <br></br>
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password"></input>
-        <br></br>
-        <button id="login">Login</button>
-        <br></br>
-        <button id="register">Register</button>
+      <div id="loginParent">
+        <div id="loginCenter">
+          <input
+            className="inputfield"
+            type="text"
+            id="email"
+            placeholder="e-mail"
+          ></input>
+          <br />
+          <input
+            className="inputfield"
+            type="password"
+            id="password"
+            placeholder="password"
+          ></input>
+          <br />
+          <button className="loginButtons" id="login">
+            Login
+          </button>
+          <button className="loginButtons" id="register">
+            Register
+          </button>
+        </div>
       </div>
     );
   }
