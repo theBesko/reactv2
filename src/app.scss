@@ -55,6 +55,17 @@ body {
   }
 }
 
+.hangBtn {
+  background-color: transparent;
+  color: white;
+  border: solid 1px white;
+  margin-left: 4px;
+  font-size: 25px;
+  height: 50px;
+  width: 50px;
+  margin-top: 4px;
+}
+
 .uNameBtn {
   background-color: transparent;
   color: white;
@@ -154,4 +165,16 @@ body {
 
 #uNameChild {
   display: inline-block;
+}
+
+#guessWord {
+  font-size: 100px;
+  letter-spacing: 10px;
+  font-weight: 200;
+  display: inline-block;
+}
+
+#hangmanscreen {
+  padding-top: 200px;
+  text-align: center;
 }

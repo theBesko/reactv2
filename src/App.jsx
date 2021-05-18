@@ -44,7 +44,7 @@ class App extends Component {
         <button id="logout">LOGOUT</button>
         <div style={{display: "none"}} className="progress">
           <span id="progress-value">60%</span>
-          <div class="progress-bar" id="pb" style={{width: "60%"}}></div>
+          <div className="progress-bar" id="pb" style={{width: "60%"}}></div>
         </div>
        
         <div id="menuContainer">

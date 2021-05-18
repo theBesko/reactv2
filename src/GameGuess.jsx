@@ -54,7 +54,7 @@ setTimeout(() => {
     bt2.style.display = "";
     bt3.style.display = "";
     bt4.style.display = "";
-    
+
     shuffle(gameArray[round]);
     goodOption = gameArray[round][Math.floor(Math.random() * 4)];
 
@@ -87,8 +87,6 @@ setTimeout(() => {
   });
 
   btNext.addEventListener("click", () => {
-   
-
     if (isCorrect) {
       if (currentRound < 5) point += 1;
       if (currentRound >= 5 && currentRound < 10) point += 2;
@@ -119,9 +117,8 @@ class GameGuess extends Component {
   render() {
     return (
       <div>
-          <button id="mainmenu">Back</button>
-        <div style={{ marginTop: 100 }}>
-
+        <button id="mainmenu">Back</button>
+        <div>
           <img
             height={200}
             width={200}
