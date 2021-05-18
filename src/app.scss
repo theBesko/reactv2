@@ -20,6 +20,24 @@ body {
   }
 }
 
+.optionBtn {
+  background-color: transparent;
+  color: white;
+  border: solid 1px white;
+  width: 400px;
+  font-size: 50px;
+  font-weight: 100;
+  padding: 1%;
+  border-radius: 10px;
+  margin: 1%;
+  &:hover {
+    background-color: white;
+    color: black;
+    border: solid 1px black;
+    font-weight: 200;
+  }
+}
+
 .btnMenu {
   background-color: transparent;
   color: white;
@@ -91,7 +109,7 @@ body {
 #kiir {
   font-weight: 200;
   text-align: center;
-  h3{
+  h3 {
     font-weight: 100;
   }
 }
@@ -221,5 +239,37 @@ body {
     .nopad {
       padding-right: 0;
     }
+  }
+}
+
+#guessTbtn {
+  padding-top: 100px;
+  text-align: center;
+  div {
+    display: inline-block;
+  }
+  img {
+    height: 400px;
+    width: 700px;
+    border: 1px solid white;
+    border-radius: 40px;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-weight: 300;
+  }
+  h3 {
+    font-weight: 100;
+  }
+}
+
+#ladderTbtn {
+  padding-top: 100px;
+  text-align: center;
+  div {
+    display: inline-block;
+  }
+  h1{
+    font-weight: 300;
   }
 }

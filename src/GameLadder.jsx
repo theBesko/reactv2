@@ -62,7 +62,7 @@ setTimeout(() => {
     shuffle(gameArray[round]["a"]);
     goodOption = gameArray[round]["c"];
 
-    document.getElementById("isCorrect").innerHTML = goodOption;
+    // document.getElementById("isCorrect").innerHTML = goodOption;
 
     for (let j = 0; j < 4; j++) {
       document.getElementById("btn" + (j + 1)).innerHTML =
@@ -73,10 +73,13 @@ setTimeout(() => {
       e.addEventListener("click", () => {
         if (e.innerHTML === goodOption) {
           document.getElementById("isCorrect").innerHTML = "CORRECT";
+          document.getElementById("isCorrect").style.display = "";
           isCorrect = true;
         } else {
-          document.getElementById("isCorrect").innerHTML =
-            "WRONG, the answer was " + goodOption + "Better luck next time!";
+          document.getElementById("sendoff").innerHTML =
+            "WRONG, the answer was '" + goodOption + "'! Better luck next time!";
+
+          document.getElementById("sendoff").style.display = "";
           document.getElementById("gamecontent").style.display = "none";
 
           btLeave.style.display = "";
@@ -172,24 +175,75 @@ class GameLadder extends Component {
         <button className="bckmm" id="mainmenu3">
           Back
         </button>
+        <div id="ladderTbtn">
+          <div>
+            <div id="gamecontent">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <button className="optionBtn" id="btnHalve">
+                        50/50
+                      </button>
+                    </td>
+                    <td>
+                      <button className="optionBtn" id="btnHelp">
+                        Help!
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan={2}>
+                      <p id="help"></p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan={2}>
+                      <h1 id="question">.</h1>
+                    </td>
+                  </tr>
 
-        <p id="isCorrect"></p>
-        <div id="gamecontent">
-          <button id="btnHalve">Felezz</button>
-          <button id="btnHelp">Közönség</button>
-          <p id="help"></p>
-          <p id="question">asd</p>
-          <button id="btn1"></button>
-          <button id="btn2"></button>
-          <button id="btn3"></button>
-          <button id="btn4"></button>
-          <button id="btnNext" style={{ display: "none" }}>
-            Next
-          </button>
+                  <tr>
+                    <td>
+                      <button className="optionBtn" id="btn1"></button>
+                    </td>
+                    <td>
+                      <button className="optionBtn" id="btn2"></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <button className="optionBtn" id="btn3"></button>
+                    </td>
+                    <td>
+                      <button className="optionBtn" id="btn4"></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <h1 id="isCorrect" style={{ display: "none" }}>
+                .
+              </h1>
+              <button
+                className="btnMenu"
+                id="btnNext"
+                style={{ display: "none" }}
+              >
+                Next
+              </button>
+            </div>
+            <h1 id="sendoff" style={{ display: "none" }}>
+              .
+            </h1>
+            <button
+              className="btnMenu"
+              id="btnLeave"
+              style={{ display: "none" }}
+            >
+              Leave
+            </button>
+          </div>
         </div>
-        <button id="btnLeave" style={{ display: "none" }}>
-          Leave
-        </button>
       </div>
     );
   }

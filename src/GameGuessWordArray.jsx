@@ -1,6 +1,6 @@
 var optionCollection = [
+  ["Gyros", "Pizza", "Hamburger", "Stew"],
     ["English", "Hungarian", "German", "Irish"],
-    ["Gyros", "Pizza", "Hamburger", "Stew"],
     ["Physical Education", "History", "Biology", "Math"],
     ["Football","Basketball","Volleyball","Golf"],
     ["Truck","Car","Motorcycle","Bus"],

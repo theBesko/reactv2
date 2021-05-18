@@ -95,6 +95,6 @@ setTimeout(() => {
       kiir();
     }
   });
-}, 500);
+}, 600);
 
 export default App;
