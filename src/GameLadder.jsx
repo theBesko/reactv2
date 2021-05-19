@@ -6,7 +6,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
 
-var gameArray = questionColletcion; // shuffle(questionColletcion);
+var gameArray = shuffle(questionColletcion);
 
 var goodOption, bt1, bt2, bt3, bt4, btNext, btLeave, btnHelp, btnHalve;
 var currentRound = 0;
@@ -54,11 +54,19 @@ setTimeout(() => {
 
   function round(round) {
     isCorrect = false;
+    if (isHalve) btnHalve.style.display = "";
+    if (isHelp) btnHelp.style.display = "";
     bt1.style.display = "";
     bt2.style.display = "";
     bt3.style.display = "";
     bt4.style.display = "";
-    document.getElementById("question").innerHTML = gameArray[round]["q"];
+    document.getElementById("question").innerHTML =
+      "Round " +
+      (currentRound + 1) +
+      " <small>(+" +
+      (currentRound + 1) +
+      "pts)</small><br> " +
+      gameArray[round]["q"];
     shuffle(gameArray[round]["a"]);
     goodOption = gameArray[round]["c"];
 
@@ -72,19 +80,53 @@ setTimeout(() => {
     [bt1, bt2, bt3, bt4].forEach((e) => {
       e.addEventListener("click", () => {
         if (e.innerHTML === goodOption) {
-          document.getElementById("isCorrect").innerHTML = "CORRECT";
-          document.getElementById("isCorrect").style.display = "";
           isCorrect = true;
+          var xyz = gameArray[round]["q"];
+          var zyx =
+            goodOption === "---"
+              ? xyz.replace("___ ", "")
+              : xyz.replace("___", goodOption);
+          document.getElementById("question").innerHTML =
+            "Correct: '" + zyx + "'";
+          document.getElementById("btnLeave").style.display = "";
+          document.getElementById("btnLeave").innerHTML =
+            "Leave and Take your " + (point + currentRound + 1) + " points!";
         } else {
-          document.getElementById("sendoff").innerHTML =
-            "WRONG, the answer was '" + goodOption + "'! Better luck next time!";
-
-          document.getElementById("sendoff").style.display = "";
           document.getElementById("gamecontent").style.display = "none";
+          var t =
+            "Wrong, the answer was '" +
+            goodOption +
+            "'! Better luck next time!<br>" +
+            "Returning to Main Menu in ";
 
-          btLeave.style.display = "";
+          var so = document.getElementById("sendoff");
+          so.style.display = "";
+
+          so.innerHTML = t + 5 + "...";
+          setTimeout(() => {
+            so.innerHTML = t + 4 + "...";
+          }, 1000);
+
+          setTimeout(() => {
+            so.innerHTML = t + 3 + "...";
+          }, 2000);
+
+          setTimeout(() => {
+            so.innerHTML = t + 2 + "...";
+          }, 3000);
+
+          setTimeout(() => {
+            so.innerHTML = t + 1 + "...";
+          }, 4000);
+
+          setTimeout(() => {
+            document.location.reload();
+          }, 5200);
         }
+
         btNext.style.display = "";
+        btnHalve.style.display = "none";
+        btnHelp.style.display = "none";
         bt1.style.display = "none";
         bt2.style.display = "none";
         bt3.style.display = "none";
@@ -94,38 +136,44 @@ setTimeout(() => {
   }
 
   btLeave.addEventListener("click", () => {
-    pointToDB(point);
+    pointToDB(point + currentRound + 1);
   });
 
   btNext.addEventListener("click", () => {
-    currentRound++;
-    if (isCorrect) {
-      point += currentRound;
-    }
     document.getElementById("isCorrect").innerHTML = "";
-    if (currentRound < finalRound) {
+
+    if (currentRound < finalRound-1) {
+      if (isCorrect) {
+        currentRound++;
+        point += currentRound;
+      }
       btNext.style.display = "none";
+      btLeave.style.display = "none";
       round(currentRound);
     } else {
       btNext.style.display = "none";
       btLeave.style.display = "";
     }
-    console.log(currentRound);
-    console.log(point);
   });
 
   btnHelp.addEventListener("click", () => {
     if (isHelp) {
-      document.getElementById("help").innerHTML = gameArray[currentRound]["c"];
+      bt1.style.display =
+        bt1.innerHTML === gameArray[currentRound]["c"] ? "" : "none";
+      bt2.style.display =
+        bt2.innerHTML === gameArray[currentRound]["c"] ? "" : "none";
+      bt3.style.display =
+        bt3.innerHTML === gameArray[currentRound]["c"] ? "" : "none";
+      bt4.style.display =
+        bt4.innerHTML === gameArray[currentRound]["c"] ? "" : "none";
       isHelp = false;
     } else {
-      document.getElementById("help").innerHTML =
-        "No more help from the crowd!";
     }
   });
 
   btnHalve.addEventListener("click", () => {
     if (isHalve) {
+      btnHalve.style.display = "none";
       if (bt1.innerHTML === goodOption) {
         bt2.style.display = "none";
         bt3.style.display = "none";
@@ -194,12 +242,9 @@ class GameLadder extends Component {
                   </tr>
                   <tr>
                     <td colSpan={2}>
-                      <p id="help"></p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colSpan={2}>
-                      <h1 id="question">.</h1>
+                      <h1 style={{ paddingTop: "75px" }} id="question">
+                        .
+                      </h1>
                     </td>
                   </tr>
 
@@ -219,29 +264,41 @@ class GameLadder extends Component {
                       <button className="optionBtn" id="btn4"></button>
                     </td>
                   </tr>
+                  <tr>
+                    <td colSpan={2}>
+                      <h1 id="isCorrect" style={{ display: "none" }}>
+                        .
+                      </h1>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan={2}>
+                      <button
+                        className="btnMenu"
+                        id="btnNext"
+                        style={{ display: "none" }}
+                      >
+                        Next Round
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan={2}>
+                      <button
+                        className="btnMenu"
+                        id="btnLeave"
+                        style={{ display: "none" }}
+                      >
+                        Leave
+                      </button>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
-              <h1 id="isCorrect" style={{ display: "none" }}>
-                .
-              </h1>
-              <button
-                className="btnMenu"
-                id="btnNext"
-                style={{ display: "none" }}
-              >
-                Next
-              </button>
             </div>
             <h1 id="sendoff" style={{ display: "none" }}>
               .
             </h1>
-            <button
-              className="btnMenu"
-              id="btnLeave"
-              style={{ display: "none" }}
-            >
-              Leave
-            </button>
           </div>
         </div>
       </div>

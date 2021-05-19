@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import shuffle from "./shuffle";
 import optionCollection from "./GameGuessWordArray";
+import imageArr from "./GameGuessImageLinks";
 
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
 
-var gameArray = optionCollection; // shuffle(optionCollection);
+var gameArray = shuffle(optionCollection);
 
 var goodOption, bt1, bt2, bt3, bt4, btNext, btLeave;
 var currentRound = 0;
@@ -58,21 +59,25 @@ setTimeout(() => {
     shuffle(gameArray[round]);
     goodOption = gameArray[round][Math.floor(Math.random() * 4)];
 
-    //document.getElementById("correct").innerHTML = goodOption;
+    document.getElementById("imgsrc").src = imageArr[goodOption.toLowerCase()];
 
     for (let j = 0; j < 4; j++) {
-      document.getElementById("bt" + (j + 1)).innerHTML = gameArray[round][j];
+      var u = gameArray[round][j];
+      var uu = u.replaceAll("_", " ");
+      document.getElementById("bt" + (j + 1)).innerHTML = uu;
     }
 
     [bt1, bt2, bt3, bt4].forEach((e) => {
       e.addEventListener("click", () => {
         document.getElementById("temp").style.display = "";
         if (e.innerHTML === goodOption) {
-          document.getElementById("temp").innerHTML = "CORRECT";
+          document.getElementById("temp").innerHTML = "Correct!";
           isCorrect = true;
         } else {
+          var o = goodOption;
+          var oo = o.replaceAll("_", " ");
           document.getElementById("temp").innerHTML =
-            "WRONG, the answer is " + goodOption;
+            "Wrong, the answer is " + oo + "!";
         }
         btNext.style.display = "";
         bt1.style.display = "none";
@@ -123,35 +128,33 @@ class GameGuess extends Component {
         </button>
         <div id="guessTbtn">
           <div>
-            <h1>What's on the picture?</h1>
+            <h1 id="roundtitle">
+              Round 1 <br /> What's on the picture?
+            </h1>
             <h3>Choose from the following options!</h3>
             <table>
               <tbody>
-              <tr>
-                <td colSpan={2}>
-                  <img
-                    src="//live.staticflickr.com/5238/5913452967_2c1cde583b_b.jpg"
-                    id="rndimg"
-                    alt="kép helye"
-                  ></img>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <button className="optionBtn" id="bt1"></button>
-                </td>
-                <td>
-                  <button className="optionBtn" id="bt2"></button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <button className="optionBtn" id="bt3"></button>
-                </td>
-                <td>
-                  <button className="optionBtn" id="bt4"></button>
-                </td>
-              </tr>
+                <tr>
+                  <td colSpan={2}>
+                    <img src="" id="imgsrc" alt="kép helye"></img>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <button className="optionBtn" id="bt1"></button>
+                  </td>
+                  <td>
+                    <button className="optionBtn" id="bt2"></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <button className="optionBtn" id="bt3"></button>
+                  </td>
+                  <td>
+                    <button className="optionBtn" id="bt4"></button>
+                  </td>
+                </tr>
               </tbody>
             </table>
 
@@ -161,7 +164,11 @@ class GameGuess extends Component {
             <button className="btnMenu" id="btNext" style={{ display: "none" }}>
               Next
             </button>
-            <button className="btnMenu" id="btLeave" style={{ display: "none" }}>
+            <button
+              className="btnMenu"
+              id="btLeave"
+              style={{ display: "none" }}
+            >
               Leave
             </button>
           </div>

@@ -6,7 +6,7 @@ import "firebase/database";
 const orderedDB = firebase.database().ref().orderByChild("score");
 var dbArray = [];
 
-const auth = firebase.auth();
+//const auth = firebase.auth();
 
 setTimeout(() => {
   function load() {

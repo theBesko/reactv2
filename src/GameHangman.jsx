@@ -1,17 +1,12 @@
 import React, { Component } from "react";
 import shuffle from "./shuffle";
+import phraseCollection from "./GameHangmanPhrase"
 
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
 
 const auth = firebase.auth();
-
-var phraseCollection = [
-  "what this sentence supposed to mean",
-  "My name is Jeff",
-  "Theory of Computation",
-];
 
 var steps = 10;
 var found = false;
