@@ -9,17 +9,33 @@ setTimeout(() => {
   addNameBtn.addEventListener("click", (e) => {
     const username = document.getElementById("usernameinput").value;
     firebase
-      .auth()
-      .currentUser.updateProfile({
-        displayName: username,
-      })
-      .then(() => {
-        // document.getElementById("username").style.display="none";
-        // document.getElementById("app").style.display="";
-        document.location.reload();
-      })
-      .catch((e) => console.log(e.message));
-    firebase.database().ref().child(username).update({ score: 0 });
+      .database()
+      .ref()
+      .once("value")
+      .then((snap) => {
+        if (snap.hasChild(username)) {
+          document.getElementById("exist").style.display = "";
+          document.getElementById("exist").innerHTML =
+            "User with such name already registered!<br>Please choose a different one!";
+        } else {
+          if (username === "") {
+            document.getElementById("exist").style.display = "";
+            document.getElementById("exist").innerHTML =
+              "You must have a name!";
+          } else {
+            firebase
+              .auth()
+              .currentUser.updateProfile({
+                displayName: username,
+              })
+              .then(() => {
+                document.location.reload();
+              })
+              .catch((e) => console.log(e.message));
+            firebase.database().ref().child(username).update({ score: 0 });
+          }
+        }
+      });
   });
 }, 2000);
 
@@ -37,6 +53,9 @@ class Username extends Component {
           <button className="uNameBtn" id="setusername">
             My Name!
           </button>
+          <h2 id="exist" style={{ display: "none" }}>
+            .
+          </h2>
         </div>
       </div>
     );

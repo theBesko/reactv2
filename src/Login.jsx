@@ -13,10 +13,10 @@ setTimeout(() => {
     const promise = auth.signInWithEmailAndPassword(email, password);
     promise
       .then(() => {
-        // document.location.reload();
       })
       .catch((event) => {
-        console.log(event.message);
+        document.getElementById("logerror").innerHTML =
+           event.message;
       });
   });
 
@@ -29,8 +29,6 @@ setTimeout(() => {
     promise
       .then((user) => console.log(user))
       .catch((e) => console.log(e.message));
-
-    // document.getElementById("reg").style = "display:block";
   });
 }, 1000);
 
@@ -61,6 +59,7 @@ class Login extends Component {
           <button className="loginButtons" id="register">
             Register
           </button>
+          <p id="logerror" style={{paddingTop: '300px', fontSize: '20px'}}></p>
         </div>
       </div>
     );

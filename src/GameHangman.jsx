@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import shuffle from "./shuffle";
-import phraseCollection from "./GameHangmanPhrase"
+import phraseCollection from "./GameHangmanPhrase";
 
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -82,11 +82,11 @@ function guessing(letter) {
   }
   if (found) {
     document.getElementById("err").innerHTML =
-      "Correct.." + steps + " steps remaining.";
+      "Correct!<br>Remaining mistakes: " + steps;
   } else {
     steps--;
     document.getElementById("err").innerHTML =
-      "Wrong.." + steps + " steps remaining.";
+      "Wrong!<br>Remaining mistakes: " + steps;
   }
 
   document.getElementById("letter" + letter).style.display = "none";
@@ -116,7 +116,6 @@ function renderLetters() {
 
 setTimeout(() => {
   renderLetters();
-  //document.getElementById("tmp").innerHTML = phrase;
   const guess = document.getElementById("guessWord");
   guess.innerHTML = word;
   document.getElementById("leavehm").addEventListener("click", () => {
@@ -144,9 +143,9 @@ class GameHangman extends Component {
         <button className="bckmm" id="mainmenu4">
           Back
         </button>
-        <p id="tmp"></p>
-        <p id="err"></p>
+
         <div id="hangmanscreen">
+          <h2 id="err">Remaining mistakes: 10</h2>
           <div id="guessWord"></div>
           <div id="letters"></div>
         </div>

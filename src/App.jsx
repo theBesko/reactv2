@@ -28,7 +28,7 @@ class App extends Component {
             </button>
             <br />
             <button className="btnMenu" id="btnHangman">
-              Letter-o-guess
+              Guess the Word!
             </button>
             <br />
             <button className="btnMenu" id="btnLadder">
@@ -37,6 +37,10 @@ class App extends Component {
             <br />
             <button className="btnMenu" id="btnLeader">
               Leaderboard
+            </button>
+            <br />
+            <button className="btnMenu" id="btnCredit">
+              Credits
             </button>
           </div>
         </div>

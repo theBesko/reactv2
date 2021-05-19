@@ -9,6 +9,7 @@ import GameGuess from "./GameGuess";
 import Leaderboard from "./Leaderboard";
 import GameLadder from "./GameLadder";
 import GameHangman from "./GameHangman";
+import Credits from "./Credits";
 
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -29,6 +30,7 @@ const game1Div = document.getElementById("game1");
 const game2Div = document.getElementById("game2");
 const game3Div = document.getElementById("game3");
 const leaderboard = document.getElementById("leaderboard");
+const credits = document.getElementById("credits");
 
 auth.onAuthStateChanged((user) => {
   if (user) {
@@ -53,11 +55,13 @@ setTimeout(() => {
   game2Div.style.display = "none";
   game3Div.style.display = "none";
   leaderboard.style.display = "none";
+  credits.style.display = "none";
 
   const btnGame1 = document.getElementById("btnGuess");
   const btnGame2 = document.getElementById("btnHangman");
   const btnGame3 = document.getElementById("btnLadder");
   const btnLeader = document.getElementById("btnLeader");
+  const btnCredit = document.getElementById("btnCredit");
 
   btnGame1.addEventListener("click", () => {
     hideElse(game1Div);
@@ -72,9 +76,12 @@ setTimeout(() => {
   btnLeader.addEventListener("click", () => {
     hideElse(leaderboard);
   });
+  btnCredit.addEventListener("click", () => {
+    hideElse(credits);
+  });
 
   function hideElse(parDiv) {
-    var x = [appDiv, btnGame1, btnGame2, btnGame3, btnLeader];
+    var x = [appDiv, btnGame1, btnGame2, btnGame3, btnLeader, btnCredit];
     for (let e in x) {
       x[e].style.display = "none";
     }
@@ -89,3 +96,4 @@ ReactDom.render(<GameGuess />, game1Div);
 ReactDom.render(<GameHangman />, game2Div);
 ReactDom.render(<GameLadder />, game3Div);
 ReactDom.render(<Leaderboard />, leaderboard);
+ReactDom.render(<Credits />, credits);

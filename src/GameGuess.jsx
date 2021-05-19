@@ -7,11 +7,11 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
 
-var gameArray = shuffle(optionCollection);
+var gameArray =  shuffle(optionCollection);
 
 var goodOption, bt1, bt2, bt3, bt4, btNext, btLeave;
 var currentRound = 0;
-const finalRound = 3;
+const finalRound = 15;
 const auth = firebase.auth();
 
 setTimeout(() => {
@@ -56,22 +56,30 @@ setTimeout(() => {
     bt3.style.display = "";
     bt4.style.display = "";
 
+    document.getElementById("roundtitle").innerHTML =
+      (round<finalRound-1?"Round " + (round + 1):"Final Round") + "<br> What's on the picture?";
+
     shuffle(gameArray[round]);
     goodOption = gameArray[round][Math.floor(Math.random() * 4)];
 
     document.getElementById("imgsrc").src = imageArr[goodOption.toLowerCase()];
 
     for (let j = 0; j < 4; j++) {
+      document.getElementById("bt" + (j + 1)).style = "";
       var u = gameArray[round][j];
       var uu = u.replaceAll("_", " ");
       document.getElementById("bt" + (j + 1)).innerHTML = uu;
+      if (uu.length > 10)
+        document.getElementById("bt" + (j + 1)).style =
+          "font-size: 40px; padding: 3%";
+      document.getElementById("bt" + (j + 1)).value = gameArray[round][j];
     }
 
     [bt1, bt2, bt3, bt4].forEach((e) => {
       e.addEventListener("click", () => {
         document.getElementById("temp").style.display = "";
-        if (e.innerHTML === goodOption) {
-          document.getElementById("temp").innerHTML = "Correct!";
+        if (e.value === goodOption) {
+          document.getElementById("temp").innerHTML = "Correct! (+1pts)";
           isCorrect = true;
         } else {
           var o = goodOption;
@@ -89,18 +97,17 @@ setTimeout(() => {
   }
 
   btLeave.addEventListener("click", () => {
-    pointToDB(point);
+    pointToDB(point+1);
   });
 
   btNext.addEventListener("click", () => {
-    if (isCorrect) {
-      if (currentRound < 5) point += 1;
-      if (currentRound >= 5 && currentRound < 10) point += 2;
-      if (currentRound >= 10 && currentRound < 15) point += 5;
-    }
-    currentRound++;
     document.getElementById("temp").style.display = "none";
-    if (currentRound < finalRound) {
+    
+    if (currentRound < finalRound - 1) {
+      currentRound++;
+      if (isCorrect) {
+        point++;
+      }
       btNext.style.display = "none";
       round(currentRound);
     } else {
@@ -169,7 +176,7 @@ class GameGuess extends Component {
               id="btLeave"
               style={{ display: "none" }}
             >
-              Leave
+              Leave Game
             </button>
           </div>
         </div>
