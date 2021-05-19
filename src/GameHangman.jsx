@@ -82,11 +82,17 @@ function guessing(letter) {
   }
   if (found) {
     document.getElementById("err").innerHTML =
-      "Correct!<br>Remaining mistakes: " + steps;
+      "Correct! (+" +
+      (50 - 5 * Math.abs(steps - 10)) +
+      "/50pts)<br>Remaining mistakes: " +
+      steps;
   } else {
     steps--;
     document.getElementById("err").innerHTML =
-      "Wrong!<br>Remaining mistakes: " + steps;
+      "Wrong! (+" +
+      (50 - 5 * Math.abs(steps - 10)) +
+      "/50pts)<br>Remaining mistakes: " +
+      steps;
   }
 
   document.getElementById("letter" + letter).style.display = "none";

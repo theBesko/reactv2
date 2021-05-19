@@ -50,7 +50,7 @@ class Login extends Component {
             className="inputfield"
             type="password"
             id="password"
-            placeholder="password"
+            placeholder="password (min. 6)"
           ></input>
           <br />
           <button className="loginButtons" id="login">

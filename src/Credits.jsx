@@ -18,14 +18,12 @@ class Credits extends Component {
           <div>
             <h1>Thanks for checking out English-Learninator!</h1>
             <h2>
-              var createdBy=[]; <br /> <br /> createdBy.push('Etlinger András'); <br />
-              createdBy.push('Besenyei Tamás');
+              Created By digszamgang
               <br />
               <br />
-              const teamSize = createdBy.length;
+              Etlinger András
               <br />
-              console.log(teamSize); // 2!!
-
+              Besenyei Tamás
             </h2>
           </div>
         </div>
